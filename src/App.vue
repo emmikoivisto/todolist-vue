@@ -38,7 +38,7 @@ export default {
     saveNewTask: function () {
       this.tasks.push({
         task: this.newTask, 
-        isDone: false
+        highPriority: false
       }),
     this.newTask = "";
     },
