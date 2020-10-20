@@ -12,9 +12,9 @@
 
 <form v-on:submit.prevent="saveNewTask">
     <label for="new-task">More shit to do:</label>
-    <input type="text" id="new-task" v-model="newTask">
-        <input type="radio" name= "priority" id="high-priority" value="high" for ="high" v-on:click="handleClick(index)">High</input>
-        <input type="radio" name = "priority" id="low-priority" value="low" for="low" checked>Low</input>
+    <input type="text" id="new-task" v-model="newTask.task">
+        <input type="radio" name= "priority" id="high-priority" value="high-priority" for ="high" v-model="newTask.priority">High</input>
+        <input type="radio" name = "priority" id="low-priority" value="low-priority" for="low" v-model="newTask.priority" checked>Low</input>
     <button type="submit" value="save-new-task">Add it</button>
 </form>
 </div>
@@ -25,33 +25,28 @@
 export default {
     data() {
         return {
-            tasks: [
-                {task: "Take the bins out", highPriority: false},
-                {task: "Brush the cat", highPriority: false},
-                {task: "stroke the hedgehog", highPriority: false}
-            ],
-          newTask: ""
+            tasks: [],
+            newTask: {
+              task:"",
+              priority:""
+          }
         }
     },
 
   methods:  {
     saveNewTask: function () {
       this.tasks.push({
-        task: this.newTask, 
-        highPriority: false
+        task: this.newTask.task, 
+        priority: this.newTask.priority
       }),
-    this.newTask = "";
-    },
-  
-    handleClick: function(index) {
-        this.tasks.[index].highPriority = true;
+    this.newTask = {
+      task: "",
+      priority: ""
+      }
     }
-  }  
+  }
 }
-
 </script>
-
-
 
 <style>
 #app {
@@ -107,5 +102,4 @@ button, input[type="submit"]{
   cursor: pointer;
   border: 1px solid #000;
 }
-
 </style>
