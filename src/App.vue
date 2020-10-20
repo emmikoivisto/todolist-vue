@@ -1,50 +1,53 @@
 <template>
-<div id="app">
-  <h1>Got some shit to do, Lazy.</h1>
-  <ul>
-    <li v-for="(todo, index) in tasks"
-    :key="index" :class="todo.highPriority ?
-    'high-priority' : 'low-priority'">
-      <span>{{todo.task}}</span>
-      <span v-if="todo.highPriority">DO IT NOW!</span>
-    </li>
-  </ul>
+  <div id="app">
 
-<form v-on:submit.prevent="saveNewTask">
-    <label for="new-task">More shit to do:</label>
-    <input type="text" id="new-task" v-model="newTask.task">
-        <input type="radio" name= "priority" id="high-priority" value="high-priority" for ="high" v-model="newTask.priority">High</input>
-        <input type="radio" name = "priority" id="low-priority" value="low-priority" for="low" v-model="newTask.priority" checked>Low</input>
-    <button type="submit" value="save-new-task">Add it</button>
-</form>
-</div>
-  
+    <h1>{{title}}</h1>
+    <form v-on:submit.prevent="saveNewTodo">
+      <label for="todo-input">Add a ToDo:</label>
+      <input type="text" id="todo-input" v-model="newTodo.name" />
+      <label for="high">High</label>
+      <input type="radio" id="high" v-model="newTodo.priority" value="high">
+      <label for="low">Low</label>
+      <input type="radio" id="low" v-model="newTodo.priority" value="low">
+      <input type="submit" value="Save Item"/>
+    </form>
+    <ul>
+      <li v-for="(todo, index) in todos" :key="index" :class="todo.priority" >
+       <span>{{ todo.name }}</span>
+      </li>
+    </ul>
+
+
+  </div>
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            tasks: [],
-            newTask: {
-              task:"",
-              priority:""
-          }
-        }
-    },
 
-  methods:  {
-    saveNewTask: function () {
-      this.tasks.push({
-        task: this.newTask.task, 
-        priority: this.newTask.priority
-      }),
-    this.newTask = {
-      task: "",
-      priority: ""
-      }
+export default {
+  name: 'App',
+  data(){
+    return {
+      title: "ToDo's",
+      todos: [
+        {name: "Buy shopping", priority: "high"},
+        {name: "Clean bathroom", priority: "low"},
+        {name: "Car's MOT", priority: "high"}
+      ],
+      newTodo: {
+        name: "",
+        priority: null
+      },
     }
-  }
+  },
+    methods: {
+      saveNewTodo: function(){
+        this.todos.push(this.newTodo);
+        this.newTodo = {
+          name: "",
+          priority: null
+        };
+      },
+    }
 }
 </script>
 
@@ -68,38 +71,28 @@ li {
   justify-content: space-between;
 }
 
-li span {
-  padding: 8px;
-}
 
-li button {
-  background: #f2360c;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-li.low-priority {
-  border: 2px solid #1a681e;
-  color: #1a681e;
-}
-
-li.high-priority {
+li.high {
   border: 2px solid #f2360c;
+  color: #f2360c;
+}
+
+li.low {
+  border: 2px solid #1a681e;
 }
 
 input[type="text"] {
   padding: 10px;
   width: 50%;
-  margin:5px;
+  margin: 10px;
 }
 
-button, input[type="submit"]{
+button{
   padding: 10px;
   background: #000;
   color: #fff;
   cursor: pointer;
   border: 1px solid #000;
 }
+
 </style>
